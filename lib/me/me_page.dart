@@ -113,7 +113,7 @@ class MePage extends StatelessWidget {
     );
   }
 
-  Container generateContainer(BuildContext context, var url){
+  Container generatePicContainer(BuildContext context, var url){
     return new Container(
         width: MediaQuery.of(context).size.width / 2.5,
         margin: const EdgeInsets.only(right: 6.0),
@@ -133,9 +133,9 @@ class MePage extends StatelessWidget {
   }
 
 
-  List<Container> getContainerList(BuildContext context){
+  List<Container> getPicContainerList(BuildContext context){
     var containerList = List<Container>();
-    urlList.forEach((url)=>containerList.add(generateContainer(context, url)));
+    urlList.forEach((url)=>containerList.add(generatePicContainer(context, url)));
     return containerList;
   }
 
@@ -147,49 +147,57 @@ class MePage extends StatelessWidget {
         padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
         child: new Column(
           children: <Widget>[
-            new Container(
-                margin: const EdgeInsets.only(left: 16.0, bottom: 20.0),
-                child: new Row(
-                  children: <Widget>[
-                    new Container(
-                      child: new CircleAvatar(
-                        radius: 16.0,
-                        child: new Icon(Icons.videocam, color: Colors.white),
-                        backgroundColor: Colors.green,
-                      ),
-                    ),
-                    new Expanded(
-                      child: new Container(
-                        margin: const EdgeInsets.only(left: 8.0),
-                        child: new Text("视频创作", style: new TextStyle(fontSize: 16.0),),
-                      ),
-                    ),
-                    new Container(
-                      child: new FlatButton(
-                          onPressed: (){},
-                          child: Row(
-                            children: <Widget>[
-                              new Text("拍一个", style: new TextStyle(color: Colors.grey),),
-                              Icon(Icons.arrow_forward_ios, color: Colors.grey,size: 16.0,)
-                            ],
-                          )
-                      ),
-                    )
-                  ],
-                )
-            ),
-            new Container(
-              margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: new SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: new Row(
-                  children: getContainerList(context),
-                ),
-              ),
-            )
+            getVideoTitleContainer(),
+            getPicContainerWrapper(context)
           ],
         )
     );
+  }
+
+  Container getPicContainerWrapper(BuildContext context) {
+    return new Container(
+            margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+            child: new SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: new Row(
+                children: getPicContainerList(context),
+              ),
+            ),
+          );
+  }
+
+  Container getVideoTitleContainer() {
+    return new Container(
+              margin: const EdgeInsets.only(left: 16.0, bottom: 20.0),
+              child: new Row(
+                children: <Widget>[
+                  new Container(
+                    child: new CircleAvatar(
+                      radius: 16.0,
+                      child: new Icon(Icons.videocam, color: Colors.white),
+                      backgroundColor: Colors.green,
+                    ),
+                  ),
+                  new Expanded(
+                    child: new Container(
+                      margin: const EdgeInsets.only(left: 8.0),
+                      child: new Text("视频创作", style: new TextStyle(fontSize: 16.0,color: Colors.red),),
+                    ),
+                  ),
+                  new Container(
+                    child: new FlatButton(
+                        onPressed: (){},
+                        child: Row(
+                          children: <Widget>[
+                            new Text("拍一个", style: new TextStyle(color: Colors.grey),),
+                            Icon(Icons.arrow_forward_ios, color: Colors.grey,size: 16.0,)
+                          ],
+                        )
+                    ),
+                  )
+                ],
+              )
+          );
   }
 
   @override
