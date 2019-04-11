@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  int _tabIndex = 0;
+  int _tabIndex = 1;
   bool isFinishSetup = false;
   List<Icon> _tabImages = [
     Icon(Icons.view_list, size: 25.0, color: Colors.grey,),
@@ -48,11 +48,11 @@ class HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         activeColor: Colors.teal,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: getTabIcon(0), title: Text('首页')),
-          BottomNavigationBarItem(icon: getTabIcon(1), title: Text('想法')),
-          BottomNavigationBarItem(icon: getTabIcon(2), title: Text('大学')),
-          BottomNavigationBarItem(icon: getTabIcon(3), title: Text('消息')),
-          BottomNavigationBarItem(icon: getTabIcon(4), title: Text('我')),
+          BottomNavigationBarItem(icon: getTabIcon(0), title: Text('首页1')),
+          BottomNavigationBarItem(icon: getTabIcon(1), title: Text('想法1')),
+          BottomNavigationBarItem(icon: getTabIcon(2), title: Text('大学1')),
+          BottomNavigationBarItem(icon: getTabIcon(3), title: Text('消息1')),
+          BottomNavigationBarItem(icon: getTabIcon(4), title: Text('我1')),
         ],
         currentIndex: _tabIndex,
         onTap: (index) {

@@ -7,96 +7,75 @@ import 'package:path/path.dart';
 
 class MePage extends StatelessWidget {
 
+  MePage(){
+    initData();
+  }
+  
+  var urlList = List();
+  var cellList = List<Cell>();
+  var cellList2 = List<Cell>();
+  void initData() {
+     initUrl();
+     initCellList1();
+     initCellList2();
+  }
+
+  void initUrl() {
+    urlList.add("https://pic4.zhimg.com/80/v2-8f96f7ada3e63908709b5be10e674dc0_400x224.jpg");
+    urlList.add("https://pic4.zhimg.com/50/v2-5b0249fa20a164cc398accdf6d35d192_400x224.jpg");
+    urlList.add("https://pic3.zhimg.com/50/v2-1a6124605fa761a6c20da9f83a10530b_400x224.jpg");
+    urlList.add("https://pic4.zhimg.com/50/v2-c890cea29ebc2a0ed32e27796f1f4895_400x224.jpg");
+  }
+
+
+  void initCellList1() {
+    cellList.add(new Cell("学习记录1", Icons.school));
+    cellList.add(new Cell("已购1", Icons.shopping_basket));
+    cellList.add(new Cell("余额礼券1", Icons.add_shopping_cart));
+    cellList.add(new Cell("读书会1", Icons.book));
+    cellList.add(new Cell("我的书架", Icons.collections_bookmark));
+    cellList.add(new Cell("下载中心", Icons.file_download));
+    cellList.add(new Cell("付费咨询", Icons.monetization_on));
+    cellList.add(new Cell("活动广场", Icons.accessibility));
+
+  }
+
+  void initCellList2() {
+    cellList2.add(new Cell("社区建设1", Icons.add_photo_alternate));
+    cellList2.add(new Cell("反馈与帮助1", Icons.more));
+    cellList2.add(new Cell("设置1",Icons.confirmation_number));
+    cellList2.add(new Cell("GitHub1", Icons.person));
+
+  }
+
   Widget buildItems(BuildContext context) {
     return Container(
       color: Colors.white,
       child: GridView.count(
         crossAxisCount: 4,
         shrinkWrap: true,
-        children: <Widget>[
-          MeCell(
-            title: '学习记录',
-            icon: Icons.school,
-            onPressed: () {},
-          ),
-          MeCell(
-            title: '已购',
-            icon: Icons.shopping_basket,
-            onPressed: () {},
-          ),
-          MeCell(
-            title: '余额礼券',
-            icon: Icons.add_shopping_cart,
-            onPressed: () {},
-          ),
-          MeCell(
-            title: '读书会',
-            icon: Icons.book,
-            onPressed: () {},
-          ),
-          MeCell(
-            title: '我的书架',
-            icon: Icons.collections_bookmark,
-            onPressed: () {},
-          ),
-          MeCell(
-            title: '下载中心',
-            icon: Icons.file_download,
-            onPressed: () {
-            },
-          ),
-          MeCell(
-            title: '付费咨询',
-            icon: Icons.monetization_on,
-            onPressed: () {
-            },
-          ),
-          MeCell(
-            title: '活动广场',
-            icon: Icons.accessibility,
-            onPressed: () {
-            },
-          ),
-        ],
+        children: generateItemLIst(cellList),
       ),
     );
   }
 
+
+  List<Widget> generateItemLIst(List cellList) {
+   var list = List<Widget>();
+   cellList.forEach((cell)=>list.add(MeCell(
+       title: cell.title,
+       icon: cell.icon,
+       onPressed: () {})));
+    return list;
+  }
+  
   Widget buildItems2(BuildContext context) {
     return Container(
       color: Colors.white,
       child: GridView.count(
         crossAxisCount: 4,
         shrinkWrap: true,
-        children: <Widget>[
-          MeCell(
-            title: '社区建设',
-            icon: Icons.add_photo_alternate,
-            onPressed: () {},
-          ),
-          MeCell(
-            title: '反馈与帮助',
-            icon: Icons.more,
-            onPressed: () {},
-          ),
-          MeCell(
-            title: '设置',
-            icon: Icons.confirmation_number,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SettingPage();
-              }));
-            },
-          ),
-          MeCell(
-            title: 'GitHub',
-            icon: Icons.person,
-            onPressed: () {
-              AppNavigator.pushWeb(
-                  context, 'https://github.com/Meandni', 'Github');
-            },
-          ),
-        ],
+        children: generateItemLIst(cellList2),
       ),
     );
   }
@@ -134,7 +113,34 @@ class MePage extends StatelessWidget {
     );
   }
 
+  Container generateContainer(BuildContext context, var url){
+    return new Container(
+        width: MediaQuery.of(context).size.width / 2.5,
+        margin: const EdgeInsets.only(right: 6.0),
+        child: new AspectRatio(
+            aspectRatio: 4.0 / 2.0,
+            child: new Container(
+              foregroundDecoration:new BoxDecoration(
+                  image: new DecorationImage(
+                    image: new NetworkImage(url),
+                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
+                  ),
+                  borderRadius: const BorderRadius.all(const Radius.circular(16.0))
+              ),
+            )
+        )
+    );
+  }
+
+
+  List<Container> getContainerList(BuildContext context){
+    var containerList = List<Container>();
+    urlList.forEach((url)=>containerList.add(generateContainer(context, url)));
+    return containerList;
+  }
+
   Widget videoCard(BuildContext context) {
+
     return new Container(
         color: Colors.white,
         margin: const EdgeInsets.only(top: 6.0, bottom: 6.0),
@@ -173,75 +179,11 @@ class MePage extends StatelessWidget {
                 )
             ),
             new Container(
-              margin: const EdgeInsets.only(left: 16.0),
+              margin: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: new SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: new Row(
-                  children: <Widget>[
-                    new Container(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        margin: const EdgeInsets.only(right: 6.0),
-                        child: new AspectRatio(
-                            aspectRatio: 4.0 / 2.0,
-                            child: new Container(
-                              foregroundDecoration:new BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: new NetworkImage("https://pic4.zhimg.com/80/v2-8f96f7ada3e63908709b5be10e674dc0_400x224.jpg"),
-                                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
-                                  ),
-                                  borderRadius: const BorderRadius.all(const Radius.circular(6.0))
-                              ),
-                            )
-                        )
-                    ),
-                    new Container(
-                        margin: const EdgeInsets.only(right: 6.0),
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        child: new AspectRatio(
-                            aspectRatio: 4.0 / 2.0,
-                            child: new Container(
-                              foregroundDecoration:new BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: new NetworkImage("https://pic4.zhimg.com/50/v2-5b0249fa20a164cc398accdf6d35d192_400x224.jpg"),
-                                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
-                                  ),
-                                  borderRadius: const BorderRadius.all(const Radius.circular(6.0))
-                              ),
-                            )
-                        )
-                    ),
-                    new Container(
-                        margin: const EdgeInsets.only(right: 6.0),
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        child: new AspectRatio(
-                            aspectRatio: 4.0 / 2.0,
-                            child: new Container(
-                              foregroundDecoration:new BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: new NetworkImage("https://pic3.zhimg.com/50/v2-1a6124605fa761a6c20da9f83a10530b_400x224.jpg"),
-                                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
-                                  ),
-                                  borderRadius: const BorderRadius.all(const Radius.circular(6.0))
-                              ),
-                            )
-                        )
-                    ),
-                    new Container(
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        child: new AspectRatio(
-                            aspectRatio: 4.0 / 2.0,
-                            child: new Container(
-                              foregroundDecoration:new BoxDecoration(
-                                  image: new DecorationImage(
-                                    image: new NetworkImage("https://pic4.zhimg.com/50/v2-c890cea29ebc2a0ed32e27796f1f4895_400x224.jpg"),
-                                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
-                                  ),
-                                  borderRadius: const BorderRadius.all(const Radius.circular(6.0))
-                              ),
-                            )
-                        )
-                    )
-                  ],
+                  children: getContainerList(context),
                 ),
               ),
             )
@@ -270,5 +212,16 @@ class MePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+
+}
+
+class Cell {
+  String title;
+  IconData icon;
+  Cell(String title, IconData icon){
+    this.title = title;
+    this.icon = icon;
   }
 }
