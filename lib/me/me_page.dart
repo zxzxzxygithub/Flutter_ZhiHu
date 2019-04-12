@@ -5,9 +5,6 @@ import 'package:flutter_zhihu/me/me_header.dart';
 
 class MePage extends StatefulWidget {
 
-  MePage(){
-  }
-
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +24,7 @@ class _MePageState extends State<MePage>{
 
   Future<String> _testLog() async{
 
-    Map<String,String> map = {"data":"Flutter Hello !"};
+    Map<String,String> map = {"data":"Flutter Hello 1234 !"};
 
     String result = await channel.invokeMethod(methodName,map);
 
