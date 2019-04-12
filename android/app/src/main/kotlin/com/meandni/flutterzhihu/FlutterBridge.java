@@ -8,7 +8,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
 
-public class FlutterPluginBasicTest implements MethodChannel.MethodCallHandler {
+public class FlutterBridge implements MethodChannel.MethodCallHandler {
 
     private static final String TAG = "FlutterPluginTest";
 
@@ -27,7 +27,7 @@ public class FlutterPluginBasicTest implements MethodChannel.MethodCallHandler {
 
     public static void registerWith(PluginRegistry.Registrar registrar) {
         channel = new MethodChannel(registrar.messenger(), CHANNEL);
-        FlutterPluginBasicTest instance = new FlutterPluginBasicTest();
+        FlutterBridge instance = new FlutterBridge();
         channel.setMethodCallHandler(instance);
     }
 
