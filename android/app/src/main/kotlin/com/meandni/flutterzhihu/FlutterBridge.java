@@ -18,8 +18,9 @@ public class FlutterBridge implements MethodChannel.MethodCallHandler {
     public static String CHANNEL = "com.mmd.flutterapp/plugin";
 
     private static String ACTION_LOG = "log";
+    private static String ACTION_TOAST = "toast";
 
-    private static String LOG_ARGUMENT = "data";
+    private static String ARGUMENT = "data";
 
     static MethodChannel channel;
 
@@ -37,12 +38,12 @@ public class FlutterBridge implements MethodChannel.MethodCallHandler {
         /**
          * 通过 method 判断调用方法
          */
-        if (methodCall.method.equals(ACTION_LOG)) {
+        if (methodCall.method.equals(ACTION_TOAST)) {
             Activity curActivity = MyActivityLifecycleCallbacks.getInstance().getCurActivity();
             /**
              * 解析参数
              */
-            String text = methodCall.argument(LOG_ARGUMENT);
+            String text = methodCall.argument(ARGUMENT);
             if (TextUtils.isEmpty(text)) {
                 /**
                  * 错误返回
