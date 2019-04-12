@@ -196,8 +196,8 @@ class MePage extends StatelessWidget {
             child: new Container(
               foregroundDecoration: new BoxDecoration(
                   image: new DecorationImage(
+                    fit: BoxFit.cover,
                     image: new NetworkImage(url),
-                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
                   ),
                   borderRadius: const BorderRadius.only(topLeft:
                       radius,bottomLeft:radius)
