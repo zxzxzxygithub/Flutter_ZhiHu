@@ -209,19 +209,25 @@ class MePage extends StatelessWidget {
 
 
   Widget generateTwoColumn() {
+    var text = new Text("晶钻身体焕肤霜",
+                textAlign: TextAlign.left,
+                style: new TextStyle(
+                    fontSize: 14.0, color: const Color(0xFF333333)));
+    var text2 = new Text("¥ 1,870.00",
+                textAlign: TextAlign.left,
+                style: new TextStyle(
+                    fontSize: 14.0, color: const Color(0xFFFF3030)));
+    var container1 = new Container(
+      margin: const EdgeInsets.only(top: 5, bottom: 15),
+      child: text2,
+    );
     return new Container(
       margin: const EdgeInsets.only(top: 16.0, left: 6.0),
       child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text("晶钻身体焕肤霜",
-                textAlign: TextAlign.left,
-                style: new TextStyle(
-                    fontSize: 14.0, color: const Color(0xFF333333))),
-            new Text("¥ 1,870.00",
-                textAlign: TextAlign.left,
-                style: new TextStyle(
-                    fontSize: 14.0, color: const Color(0xFFFF3030)))
+            text,
+            container1
           ]
       ),
     );
