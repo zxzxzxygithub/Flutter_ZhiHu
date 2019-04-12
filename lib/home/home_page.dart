@@ -5,6 +5,7 @@ import 'package:flutter_zhihu/idea/Idea_page.dart';
 import 'package:flutter_zhihu/me/me_page.dart';
 import 'package:flutter_zhihu/message/message_page.dart';
 import 'package:flutter_zhihu/myhome/home_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
@@ -33,6 +34,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return Scaffold(
       body: IndexedStack(
         children: <Widget>[

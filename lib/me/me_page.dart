@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zhihu/component/cell/me_cell.dart';
-import 'package:flutter_zhihu/me/setting_page.dart';
 import 'package:flutter_zhihu/me/me_header.dart';
-import 'package:flutter_zhihu/utils/app_navigator.dart';
-import 'package:path/path.dart';
 
 class MePage extends StatelessWidget {
 
@@ -143,8 +140,8 @@ class MePage extends StatelessWidget {
 
     return new Container(
         color: Colors.white,
-        margin: const EdgeInsets.only(top: 6.0, bottom: 6.0),
-        padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
+        margin: const EdgeInsets.only(top: 6.0),
+        padding: const EdgeInsets.only(top: 12.0),
         child: new Column(
           children: <Widget>[
             getVideoTitleContainer(),
@@ -154,15 +151,92 @@ class MePage extends StatelessWidget {
     );
   }
 
-  Container getPicContainerWrapper(BuildContext context) {
+  Widget goodsCard(BuildContext context) {
+
+    var row = new Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment:MainAxisAlignment.start,
+        children: <Widget>[
+        generatePicContainer2(context,
+            "https://pic4.zhimg.com/50/v2-5b0249fa20a164cc398accdf6d35d192_400x224.jpg"),
+        generateTwoColumn()
+      ],
+    );
+
+
+    var sizedBox = new Container(
+      margin: const EdgeInsets.all(20.0),
+      width: 200,
+      height: 75.0,
+      decoration: new BoxDecoration(
+        color: Colors.green,
+        borderRadius: const BorderRadius.all(const Radius.circular(18.0)),
+      ),
+      child: row,
+    );
+
+
+    var container = new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:<Widget>[
+          sizedBox
+        ]
+    );
+    return container;
+  }
+
+  Container generatePicContainer2(BuildContext context, var url) {
+    const radius = const Radius.circular(18.0);
     return new Container(
-            margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: new SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: new Row(
-                children: getPicContainerList(context),
+        width: 75,
+        height: 75,
+        margin: const EdgeInsets.only(right: 6.0),
+        child: new AspectRatio(
+            aspectRatio: 4.0 / 2.0,
+            child: new Container(
+              foregroundDecoration: new BoxDecoration(
+                  image: new DecorationImage(
+                    image: new NetworkImage(url),
+                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
+                  ),
+                  borderRadius: const BorderRadius.only(topLeft:
+                      radius,bottomLeft:radius)
               ),
-            ),
+            )
+        )
+    );
+  }
+
+
+  Widget generateTwoColumn() {
+    return new Container(
+      margin: const EdgeInsets.only(top: 16.0, left: 6.0),
+      child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Text("晶钻身体焕肤霜",
+                textAlign: TextAlign.left,
+                style: new TextStyle(
+                    fontSize: 14.0, color: const Color(0xFF333333))),
+            new Text("¥ 1,870.00",
+                textAlign: TextAlign.left,
+                style: new TextStyle(
+                    fontSize: 14.0, color: const Color(0xFFFF3030)))
+          ]
+      ),
+    );
+  }
+
+  Widget getPicContainerWrapper(BuildContext context) {
+    return new Container(
+      height: 100,
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: new SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: new Row(
+          children: getPicContainerList(context),
+        ),
+      ),
           );
   }
 
@@ -181,7 +255,8 @@ class MePage extends StatelessWidget {
                   new Expanded(
                     child: new Container(
                       margin: const EdgeInsets.only(left: 8.0),
-                      child: new Text("视频创作", style: new TextStyle(fontSize: 16.0,color: Colors.red),),
+                      child: new Text("视频创作", style: new TextStyle(
+                          fontSize: 16.0, color: const Color(0xFFFF3030))),
                     ),
                   ),
                   new Container(
@@ -215,7 +290,9 @@ class MePage extends StatelessWidget {
             buildItems(context),
             SizedBox(height: 12),
             buildItems2(context),
-            videoCard(context)
+            videoCard(context),
+            SizedBox(height: 12),
+            goodsCard(context)
           ],
         ),
       ),
