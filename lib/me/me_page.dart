@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_zhihu/component/cell/me_cell.dart';
 import 'package:flutter_zhihu/me/me_header.dart';
 
 class MePage extends StatelessWidget {
-
   MePage(){
     initData();
+    initMsgChannel();
+
   }
-  
+
+
+  Future<String> _testLog() async{
+
+    Map<String,String> map = {"data":"Flutter Hello !"};
+
+    String result = await channel.invokeMethod(methodName,map);
+
+    print(result);
+  }
+
+  initMsgChannel() async {
+    await _testLog();
+  }
+
+  static const channelName = "com.mmd.flutterapp/plugin";
+
+  static const methodName = "log";
+
+  static const channel = MethodChannel(channelName);
+
+
   var urlList = List();
   var cellList = List<Cell>();
   var cellList2 = List<Cell>();

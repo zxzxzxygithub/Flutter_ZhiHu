@@ -9,5 +9,7 @@ class MainActivity: FlutterActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     GeneratedPluginRegistrant.registerWith(this)
+    FlutterPluginBasicTest.registerWith(this.registrarFor(FlutterPluginBasicTest.CHANNEL))
+
   }
 }
