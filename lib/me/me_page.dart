@@ -3,11 +3,25 @@ import 'package:flutter/services.dart';
 import 'package:flutter_zhihu/component/cell/me_cell.dart';
 import 'package:flutter_zhihu/me/me_header.dart';
 
-class MePage extends StatelessWidget {
+class MePage extends StatefulWidget {
+
   MePage(){
+  }
+
+
+  @override
+  State<StatefulWidget> createState() {
+    return new _MePageState();
+  }
+
+
+}
+
+class _MePageState extends State<MePage>{
+  var titleTextString = "晶钻身体焕肤霜";
+  _MePageState(){
     initData();
     initMsgChannel();
-
   }
 
 
@@ -17,7 +31,10 @@ class MePage extends StatelessWidget {
 
     String result = await channel.invokeMethod(methodName,map);
 
-    print(result);
+    setState(() {
+      titleTextString = result;
+    });
+
   }
 
   initMsgChannel() async {
@@ -30,14 +47,13 @@ class MePage extends StatelessWidget {
 
   static const channel = MethodChannel(channelName);
 
-
   var urlList = List();
   var cellList = List<Cell>();
   var cellList2 = List<Cell>();
   void initData() {
-     initUrl();
-     initCellList1();
-     initCellList2();
+    initUrl();
+    initCellList1();
+    initCellList2();
   }
 
   void initUrl() {
@@ -68,37 +84,46 @@ class MePage extends StatelessWidget {
 
   }
 
-  Widget buildItems(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: GridView.count(
-        crossAxisCount: 4,
-        shrinkWrap: true,
-        children: generateItemLIst(cellList),
-      ),
+
+  Container generatePicContainer(BuildContext context, var url){
+    return new Container(
+        width: MediaQuery.of(context).size.width / 2.5,
+        margin: const EdgeInsets.only(right: 6.0),
+        child: new AspectRatio(
+            aspectRatio: 4.0 / 2.0,
+            child: new Container(
+              foregroundDecoration:new BoxDecoration(
+                  image: new DecorationImage(
+                    image: new NetworkImage(url),
+                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
+                  ),
+                  borderRadius: const BorderRadius.all(const Radius.circular(16.0))
+              ),
+            )
+        )
     );
   }
 
 
-  List<Widget> generateItemLIst(List cellList) {
-   var list = List<Widget>();
-   cellList.forEach((cell)=>list.add(MeCell(
-       title: cell.title,
-       icon: cell.icon,
-       onPressed: () {})));
-    return list;
+  List<Container> getPicContainerList(BuildContext context){
+    var containerList = List<Container>();
+    urlList.forEach((url)=>containerList.add(generatePicContainer(context, url)));
+    return containerList;
   }
-  
-  Widget buildItems2(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: GridView.count(
-        crossAxisCount: 4,
-        shrinkWrap: true,
-        children: generateItemLIst(cellList2),
+
+  Widget getPicContainerWrapper(BuildContext context) {
+    return new Container(
+      height: 100,
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: new SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: new Row(
+          children: getPicContainerList(context),
+        ),
       ),
     );
   }
+
 
   Widget barSearch() {
     return new Row(
@@ -133,31 +158,52 @@ class MePage extends StatelessWidget {
     );
   }
 
-  Container generatePicContainer(BuildContext context, var url){
+  List<Widget> generateItemLIst(List cellList) {
+    var list = List<Widget>();
+    cellList.forEach((cell)=>list.add(MeCell(
+        title: cell.title,
+        icon: cell.icon,
+        onPressed: () {
+          _testLog();
+        })));
+    return list;
+  }
+
+  Container getVideoTitleContainer() {
     return new Container(
-        width: MediaQuery.of(context).size.width / 2.5,
-        margin: const EdgeInsets.only(right: 6.0),
-        child: new AspectRatio(
-            aspectRatio: 4.0 / 2.0,
-            child: new Container(
-              foregroundDecoration:new BoxDecoration(
-                  image: new DecorationImage(
-                    image: new NetworkImage(url),
-                    centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
-                  ),
-                  borderRadius: const BorderRadius.all(const Radius.circular(16.0))
+        margin: const EdgeInsets.only(left: 16.0, bottom: 20.0),
+        child: new Row(
+          children: <Widget>[
+            new Container(
+              child: new CircleAvatar(
+                radius: 16.0,
+                child: new Icon(Icons.videocam, color: Colors.white),
+                backgroundColor: Colors.green,
+              ),
+            ),
+            new Expanded(
+              child: new Container(
+                margin: const EdgeInsets.only(left: 8.0),
+                child: new Text("视频创作", style: new TextStyle(
+                    fontSize: 16.0, color: const Color(0xFFFF3030))),
+              ),
+            ),
+            new Container(
+              child: new FlatButton(
+                  onPressed: (){},
+                  child: Row(
+                    children: <Widget>[
+                      new Text("拍一个", style: new TextStyle(color: Colors.grey),),
+                      Icon(Icons.arrow_forward_ios, color: Colors.grey,size: 16.0,)
+                    ],
+                  )
               ),
             )
+          ],
         )
     );
   }
 
-
-  List<Container> getPicContainerList(BuildContext context){
-    var containerList = List<Container>();
-    urlList.forEach((url)=>containerList.add(generatePicContainer(context, url)));
-    return containerList;
-  }
 
   Widget videoCard(BuildContext context) {
 
@@ -174,12 +220,38 @@ class MePage extends StatelessWidget {
     );
   }
 
+
+  Widget buildItems(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: GridView.count(
+        crossAxisCount: 4,
+        shrinkWrap: true,
+        children: generateItemLIst(cellList),
+      ),
+    );
+  }
+
+
+  Widget buildItems2(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: GridView.count(
+        crossAxisCount: 4,
+        shrinkWrap: true,
+        children: generateItemLIst(cellList2),
+      ),
+    );
+  }
+
+
+
   Widget goodsCard(BuildContext context) {
 
     var row = new Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment:MainAxisAlignment.start,
-        children: <Widget>[
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment:MainAxisAlignment.start,
+      children: <Widget>[
         generatePicContainer2(context,
             "https://pic4.zhimg.com/50/v2-5b0249fa20a164cc398accdf6d35d192_400x224.jpg"),
         generateTwoColumn()
@@ -223,23 +295,22 @@ class MePage extends StatelessWidget {
                     image: new NetworkImage(url),
                   ),
                   borderRadius: const BorderRadius.only(topLeft:
-                      radius,bottomLeft:radius)
+                  radius,bottomLeft:radius)
               ),
             )
         )
     );
   }
 
-
   Widget generateTwoColumn() {
-    var text = new Text("晶钻身体焕肤霜",
-                textAlign: TextAlign.left,
-                style: new TextStyle(
-                    fontSize: 14.0, color: const Color(0xFF333333)));
+    var text = new Text(titleTextString,
+        textAlign: TextAlign.left,
+        style: new TextStyle(
+            fontSize: 14.0, color: const Color(0xFF333333)));
     var text2 = new Text("¥ 1,870.00",
-                textAlign: TextAlign.left,
-                style: new TextStyle(
-                    fontSize: 14.0, color: const Color(0xFFFF3030)));
+        textAlign: TextAlign.left,
+        style: new TextStyle(
+            fontSize: 14.0, color: const Color(0xFFFF3030)));
     var container1 = new Container(
       margin: const EdgeInsets.only(top: 5, bottom: 15),
       child: text2,
@@ -254,54 +325,6 @@ class MePage extends StatelessWidget {
           ]
       ),
     );
-  }
-
-  Widget getPicContainerWrapper(BuildContext context) {
-    return new Container(
-      height: 100,
-      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-      child: new SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: new Row(
-          children: getPicContainerList(context),
-        ),
-      ),
-          );
-  }
-
-  Container getVideoTitleContainer() {
-    return new Container(
-              margin: const EdgeInsets.only(left: 16.0, bottom: 20.0),
-              child: new Row(
-                children: <Widget>[
-                  new Container(
-                    child: new CircleAvatar(
-                      radius: 16.0,
-                      child: new Icon(Icons.videocam, color: Colors.white),
-                      backgroundColor: Colors.green,
-                    ),
-                  ),
-                  new Expanded(
-                    child: new Container(
-                      margin: const EdgeInsets.only(left: 8.0),
-                      child: new Text("视频创作", style: new TextStyle(
-                          fontSize: 16.0, color: const Color(0xFFFF3030))),
-                    ),
-                  ),
-                  new Container(
-                    child: new FlatButton(
-                        onPressed: (){},
-                        child: Row(
-                          children: <Widget>[
-                            new Text("拍一个", style: new TextStyle(color: Colors.grey),),
-                            Icon(Icons.arrow_forward_ios, color: Colors.grey,size: 16.0,)
-                          ],
-                        )
-                    ),
-                  )
-                ],
-              )
-          );
   }
 
   @override
@@ -327,8 +350,6 @@ class MePage extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 class Cell {

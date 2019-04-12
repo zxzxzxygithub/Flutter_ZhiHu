@@ -23,6 +23,8 @@ public class FlutterPluginBasicTest implements MethodChannel.MethodCallHandler {
 
     static MethodChannel channel;
 
+    private static int i=0;
+
     public static void registerWith(PluginRegistry.Registrar registrar) {
         channel = new MethodChannel(registrar.messenger(), CHANNEL);
         FlutterPluginBasicTest instance = new FlutterPluginBasicTest();
@@ -52,7 +54,7 @@ public class FlutterPluginBasicTest implements MethodChannel.MethodCallHandler {
                 /**
                  * 成功返回
                  */
-                result.success("is ok");
+                result.success("is ok"+i++);
             }
         }else {
             result.notImplemented();
